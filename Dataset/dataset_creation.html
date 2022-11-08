@@ -14702,15 +14702,8 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;dataset.pkl&quot;</span><span class="p">)</span>
-<span class="n">df_detailed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;detailed.pkl&quot;</span><span class="p">)</span>
 
 <span class="n">detailed_url</span><span class="o">=</span><span class="s2">&quot;https://steamspy.com/api.php?request=appdetails&amp;appid=&quot;</span>
-
-<span class="n">pickl_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;detailed.pkl&quot;</span><span class="p">)</span>
-
-<span class="n">ls</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pickl_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-  <span class="n">ls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14782,13 +14775,61 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_detailed</span> <span class="o">=</span> <span class="n">df_detailed</span><span class="p">[</span><span class="o">~</span><span class="n">df_detailed</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_detailed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">&quot;detailed.pkl&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_detailed</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df_detailed</span> <span class="o">=</span> <span class="n">df_detailed</span><span class="p">[</span><span class="o">~</span><span class="n">df_detailed</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)]</span>
 
-<span class="n">df_complete</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df_detailed</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_complete</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;appid&#39;</span><span class="p">),</span><span class="n">df_detailed</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">df_complete</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s2">&quot;complete_df_steam.pkl&quot;</span><span class="p">)</span>
+</pre></div>
 
-<span class="n">df_complete</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>(74700, 4)
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>/home/florian/.local/lib/python3.10/site-packages/pandas/core/indexes/base.py:6999: FutureWarning: In a future version, the Index constructor will not infer numeric dtypes when passed object-dtype sequences (matching Series behavior)
+  return Index(sequences[0], name=names)
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_complete</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14827,7 +14868,6 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>appid</th>
       <th>name</th>
       <th>developer</th>
       <th>publisher</th>
@@ -14837,7 +14877,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
       <th>userscore</th>
       <th>owners</th>
       <th>average_forever</th>
-      <th>...</th>
+      <th>average_2weeks</th>
       <th>median_forever</th>
       <th>median_2weeks</th>
       <th>price</th>
@@ -14852,104 +14892,467 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
   </thead>
   <tbody>
     <tr>
-      <th>count</th>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>...</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
+      <th>882910</th>
+      <td>BATTLE X</td>
+      <td>Naviworks Co.,Ltd.</td>
+      <td>Naviworks Co.,Ltd.</td>
+      <td></td>
+      <td>9</td>
+      <td>10</td>
       <td>0</td>
-      <td>1075</td>
-      <td>1075</td>
-      <td>1075</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2500</td>
+      <td>2500</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[Action, Adventure, Massively Multiplayer, Sim...</td>
+      <td>[Action, Adventure, Massively Multiplayer, Sim...</td>
+      <td>[English, Korean, Simplified Chinese, English,...</td>
     </tr>
     <tr>
-      <th>unique</th>
-      <td>1074</td>
-      <td>1073</td>
-      <td>1032</td>
-      <td>979</td>
+      <th>741670</th>
+      <td>Easy Red</td>
+      <td>Marco Amadei</td>
+      <td>Corvostudio di Amadei Marco</td>
+      <td></td>
+      <td>767</td>
+      <td>186</td>
+      <td>0</td>
+      <td>50,000 .. 100,000</td>
+      <td>219</td>
+      <td>0</td>
+      <td>226</td>
+      <td>0</td>
+      <td>399</td>
+      <td>399</td>
+      <td>0</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>[Action, FPS, First-Person, Historical, Indie,...</td>
+      <td>[Action, Indie, Simulation, Strategy, Action, ...</td>
+      <td>[English, Italian, Simplified Chinese, Traditi...</td>
+    </tr>
+    <tr>
+      <th>1897510</th>
+      <td>LAETUS.</td>
+      <td>AjSpeed, Filip Budd</td>
+      <td>AjSpeed</td>
+      <td></td>
       <td>1</td>
-      <td>408</td>
-      <td>276</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>299</td>
+      <td>299</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[2D, 2D Platformer, Action, Colorful, Difficul...</td>
+      <td>[Action, Indie, Action, Indie, Action, Indie, ...</td>
+      <td>[English, French, Italian, German, Spanish - S...</td>
+    </tr>
+    <tr>
+      <th>661280</th>
+      <td>Dresden Files Cooperative Card Game</td>
+      <td>Hidden Achievement LLC</td>
+      <td>Hidden Achievement LLC</td>
+      <td></td>
+      <td>85</td>
+      <td>20</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>509</td>
+      <td>1699</td>
+      <td>70</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>[2D, Board Game, Card Game, Casual, Co-op, Co-...</td>
+      <td>[Casual, Indie, Strategy, Casual, Indie, Strat...</td>
+      <td>[English, French, German, Russian, English, Fr...</td>
+    </tr>
+    <tr>
+      <th>1080040</th>
+      <td>Moo Lander</td>
+      <td>The Sixth Hammer</td>
+      <td>The Sixth Hammer</td>
+      <td></td>
+      <td>32</td>
       <td>1</td>
-      <td>11</td>
-      <td>278</td>
-      <td>...</td>
-      <td>261</td>
-      <td>38</td>
-      <td>52</td>
-      <td>31</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1899</td>
+      <td>1899</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[2D, 2D Platformer, 4 Player Local, Action, Ad...</td>
+      <td>[Action, Adventure, Indie, Action, Adventure, ...</td>
+      <td>[English, Italian, German, Spanish - Spain, En...</td>
+    </tr>
+    <tr>
+      <th>517620</th>
+      <td>Gooblins</td>
+      <td>Deform Studio, LLC</td>
+      <td>Waveform Logic, Inc</td>
+      <td></td>
+      <td>9</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>399</td>
+      <td>399</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[Action, Casual, FPS, Indie, Shooter, VR]</td>
+      <td>[Action, Casual, Indie, Action, Casual, Indie,...</td>
+      <td>[English, English, English, English, English, ...</td>
+    </tr>
+    <tr>
+      <th>411620</th>
+      <td>Pane In The Glass</td>
+      <td>Rewind:VR</td>
+      <td>Rewind</td>
+      <td></td>
       <td>21</td>
-      <td>107</td>
+      <td>13</td>
       <td>0</td>
-      <td>1062</td>
-      <td>1057</td>
-      <td>1053</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>499</td>
+      <td>499</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[Action, Casual, Simulation, VR]</td>
+      <td>[Action, Casual, Simulation, Action, Casual, S...</td>
+      <td>[English, English, English, English]</td>
     </tr>
     <tr>
-      <th>top</th>
-      <td>310460</td>
-      <td>Corto Maltese - Secrets of Venice</td>
-      <td>MAGIX Software GmbH</td>
-      <td>Microids</td>
+      <th>1213860</th>
+      <td>Cut Smash Wrap</td>
+      <td>IndigoWare</td>
+      <td>IndigoWare</td>
+      <td></td>
+      <td>12</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>199</td>
+      <td>199</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[2D, Addictive, Arcade, Cartoony, Casual, Cute...</td>
+      <td>[Casual, Indie, Strategy, Casual, Indie, Strat...</td>
+      <td>[English, Portuguese - Brazil, English, Portug...</td>
+    </tr>
+    <tr>
+      <th>1046130</th>
+      <td>Tiki Trials</td>
+      <td>Last Minute Entertainment</td>
+      <td>Last Minute Entertainment</td>
+      <td></td>
+      <td>14</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[2.5D, Action, Fast-Paced, Indie, Platformer]</td>
+      <td>[Action, Indie, Action, Indie, Action, Indie, ...</td>
+      <td>[English, English, English, English, English]</td>
+    </tr>
+    <tr>
+      <th>925600</th>
+      <td>Afterlifes</td>
+      <td>Nockdev Entertainment</td>
+      <td>Nockdev Entertainment</td>
+      <td></td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1799</td>
+      <td>1799</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[Action, Adventure, Early Access, Indie, Violent]</td>
+      <td>[Action, Adventure, Indie, Early Access, Actio...</td>
+      <td>[English, English, English, English, English]</td>
+    </tr>
+    <tr>
+      <th>1928650</th>
+      <td>Niflhel's Fables: The Book of Gypsies</td>
+      <td>Dnovel</td>
+      <td>Dnovel</td>
+      <td></td>
+      <td>17</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>899</td>
+      <td>899</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[Adventure, Atmospheric, Cartoony, Choose Your...</td>
+      <td>[Adventure, Indie, Early Access, Adventure, In...</td>
+      <td>[English, Russian, English, Russian, English, ...</td>
+    </tr>
+    <tr>
+      <th>1939640</th>
+      <td>Case Files: The Death of Paulette Williams</td>
+      <td>Think Ten Media Group</td>
+      <td>Think Ten Media Group</td>
+      <td></td>
+      <td>7</td>
+      <td>4</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>999</td>
+      <td>999</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[Adventure, Casual, Choices Matter, Choose You...</td>
+      <td>[Adventure, Casual, Indie, Simulation, Adventu...</td>
+      <td>[English, English, English, English, English, ...</td>
+    </tr>
+    <tr>
+      <th>1878110</th>
+      <td>Victorian Debutante</td>
+      <td>Liquid Darkness</td>
+      <td>Liquid Darkness</td>
       <td></td>
       <td>2</td>
       <td>0</td>
       <td>0</td>
       <td>0 .. 20,000</td>
       <td>0</td>
-      <td>...</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td>424</td>
+      <td>499</td>
+      <td>15</td>
       <td>0</td>
       <td>NaN</td>
-      <td>[Casual]</td>
-      <td>[Casual]</td>
-      <td>[English]</td>
+      <td>[2D, Atmospheric, Casual, Choices Matter, Dram...</td>
+      <td>[Adventure, Casual, Adventure, Casual, Adventu...</td>
+      <td>[English, English, English, English, English, ...</td>
     </tr>
     <tr>
-      <th>freq</th>
-      <td>2</td>
-      <td>2</td>
-      <td>3</td>
-      <td>6</td>
-      <td>1075</td>
-      <td>72</td>
-      <td>143</td>
-      <td>1075</td>
-      <td>608</td>
-      <td>722</td>
-      <td>...</td>
-      <td>722</td>
-      <td>1034</td>
-      <td>192</td>
-      <td>192</td>
-      <td>1016</td>
-      <td>719</td>
+      <th>790650</th>
+      <td>MARVEL END TIME ARENA</td>
+      <td>Smilegate Entertainment</td>
+      <td>Smilegate Entertainment</td>
+      <td>99</td>
+      <td>368</td>
+      <td>160</td>
+      <td>69</td>
+      <td>100,000 .. 200,000</td>
+      <td>607</td>
+      <td>0</td>
+      <td>607</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
       <td>NaN</td>
-      <td>5</td>
-      <td>11</td>
-      <td>23</td>
+      <td>[Action, Co-op, Competitive, Fantasy, Free to ...</td>
+      <td>[Action, Free to Play, Strategy, Action, Free ...</td>
+      <td>[Korean, Korean, Korean, Korean, Korean, Korea...</td>
+    </tr>
+    <tr>
+      <th>1069050</th>
+      <td>Little Dungeon Stories</td>
+      <td>David Moralejo Sánchez</td>
+      <td>GrabTheGames</td>
+      <td></td>
+      <td>83</td>
+      <td>21</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>799</td>
+      <td>799</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[2D, Adventure, Atmospheric, Board Game, Build...</td>
+      <td>[Adventure, RPG, Strategy, Early Access, Adven...</td>
+      <td>[English, French, German, Spanish - Spain, Rus...</td>
+    </tr>
+    <tr>
+      <th>965760</th>
+      <td>Super Darts VR</td>
+      <td>Octamon Co., Ltd.</td>
+      <td>Octamon Co., Ltd.</td>
+      <td></td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>799</td>
+      <td>799</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[Casual, Early Access, Indie, Sports]</td>
+      <td>[Casual, Indie, Sports, Early Access, Casual, ...</td>
+      <td>[English, English, English, English]</td>
+    </tr>
+    <tr>
+      <th>1643460</th>
+      <td>たたかえ！ハルモニア音楽隊</td>
+      <td>たたハル製作委員会</td>
+      <td>たたハル製作委員会, パブリッシャー募集中</td>
+      <td></td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>20,000 .. 50,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1199</td>
+      <td>1199</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[2D, 2D Platformer, Adventure, Atmospheric, CR...</td>
+      <td>[Adventure, Indie, RPG, Early Access, Adventur...</td>
+      <td>[English, Not supported, Japanese, English, No...</td>
+    </tr>
+    <tr>
+      <th>1990590</th>
+      <td>Nightmare Hunter</td>
+      <td>Circle Kurasuke Warehouse</td>
+      <td>OTAKU Plan</td>
+      <td></td>
+      <td>69</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1599</td>
+      <td>1599</td>
+      <td>0</td>
+      <td>10</td>
+      <td>NaN</td>
+      <td>[2D, Adventure, Anime, Family Friendly, Fantas...</td>
+      <td>[Adventure, RPG, Adventure, RPG, Adventure, RP...</td>
+      <td>[English, Simplified Chinese, English, Simplif...</td>
+    </tr>
+    <tr>
+      <th>459370</th>
+      <td>Riverbond</td>
+      <td>Cococucumber</td>
+      <td>Cococucumber</td>
+      <td></td>
+      <td>75</td>
+      <td>19</td>
+      <td>0</td>
+      <td>20,000 .. 50,000</td>
+      <td>38</td>
+      <td>0</td>
+      <td>38</td>
+      <td>0</td>
+      <td>2499</td>
+      <td>2499</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[4 Player Local, Action, Action RPG, Action-Ad...</td>
+      <td>[Action, Adventure, Indie, Action, Adventure, ...</td>
+      <td>[English, French, Italian, German, Spanish - S...</td>
+    </tr>
+    <tr>
+      <th>1122270</th>
+      <td>Hidden Fears (Moonlight Edition)</td>
+      <td>Rosen Studio</td>
+      <td>HH-Games</td>
+      <td></td>
+      <td>19</td>
+      <td>35</td>
+      <td>0</td>
+      <td>0 .. 20,000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>499</td>
+      <td>499</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>[Adventure, Casual, Hidden Object, Indie, Stra...</td>
+      <td>[Adventure, Casual, Indie, Strategy, Adventure...</td>
+      <td>[English, German, English, German, English, Ge...</td>
     </tr>
   </tbody>
 </table>
-<p>4 rows × 21 columns</p>
 </div>
 </div>
 
@@ -14957,6 +15360,22 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 </div>
 
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div>
